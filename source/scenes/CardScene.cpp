@@ -1,7 +1,12 @@
 #include "CardScene.h"
 #include "Card.h"
+#include "tinyxml.h"
+
 
 using namespace cocos2d;
+
+
+#define CARDS_XML "xml/cards.xml"
 
 
 CCScene* CardScene::scene()
@@ -47,7 +52,34 @@ bool CardScene::init()
 	addChild( m_pScrollList );
 
 
+	loadCardsFromXml();
+
 	return true;
+}
+
+
+void CardScene::loadCardsFromXml()
+{
+	TiXmlDocument doc;
+
+	if ( doc.LoadFile(CARDS_XML) )
+	{
+		TiXmlElement* cards_tag = doc.FirstChildElement();
+		TiXmlElement* card_tag = cards_tag->FirstChildElement();
+		
+		while ( card_tag )
+		{
+			int number = 0; 
+			card_tag->QueryIntAttribute("number", &number);
+
+			const char* path = card_tag->Attribute("path");
+			const char* name = card_tag->Attribute("name");
+			const char* description = card_tag->Attribute("description");
+			
+			card_tag = card_tag->NextSiblingElement();
+		}
+	}
+
 }
 
 

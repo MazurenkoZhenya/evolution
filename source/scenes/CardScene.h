@@ -14,6 +14,8 @@ public:
 private:
 	bool				init();
 
+	void				loadCardsFromXml();
+
 	CardScene();
 	~CardScene();
 

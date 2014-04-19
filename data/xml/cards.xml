@@ -1,5 +1,6 @@
 <cards>
-	<card number="2"  
-
+	<card number="2" path="manTemp.png" name="first" description ="first description" />
+	<card number="4" path="manTemp.png" name="second" description ="second description" />
+ 
 
 </cards>

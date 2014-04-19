@@ -35,9 +35,6 @@ bool Card::init(int _id)
 {
 	/*if ( !CCLayer::init() )
 		return false;*/
-
-	//TODO: read from XML description and number of card
-
 	CCSprite* tempSpr = CCSprite::create("textures/scenes/card/manTemp.jpg");
 	tempSpr->setAnchorPoint( ccp(0, 0) );
 	tempSpr->setPosition( ccp(150, 50) );
@@ -51,4 +48,9 @@ bool Card::init(int _id)
 int Card::getNumber()
 {
     return m_Number;
+}
+
+string Card::getDescription()
+{
+	return m_Description->getString();
 }

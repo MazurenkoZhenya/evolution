@@ -12,7 +12,7 @@ public:
     static Card*    create(int _id);
 
 
-    string          getDescription(string);
+    string          getDescription();
     int             getNumber();
 	
 private:
