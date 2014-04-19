@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "BattleScene.h"
 #include "CardScene.h"
+#include "ShopScene.h"
 
 using namespace cocos2d;
 
@@ -22,7 +23,9 @@ CCScene* MainMenuScene::scene()
 //---------------------------------------------------------------------------------------------------------------------------------
 MainMenuScene::MainMenuScene():
 //main menu
-menuLabel1(NULL)
+menuLabel1(NULL),
+menuLabel2(NULL),
+menuLabel3(NULL)
 {
 }
 
@@ -75,6 +78,7 @@ void MainMenuScene::initMenu()
     menu->addChild(this->menuLabel1);
     //
 
+	//Cards button
 	CCLabelBMFont* textLabel2 = CCLabelBMFont::create("CARD SCENE", "fonts/days26black.fnt", 100.0f);
     textLabel1->setColor(ccc3(255, 255, 255));
     
@@ -84,6 +88,20 @@ void MainMenuScene::initMenu()
     this->menuLabel2->setVisible(true);
 	 
     menu->addChild(this->menuLabel2);
+	//
+
+	//Shop button
+	CCLabelBMFont* textLabel3 = CCLabelBMFont::create("Shop", "fonts/days26black.fnt", 100.0f);
+    textLabel1->setColor(ccc3(255, 255, 255));
+    
+    this->menuLabel3 = CCMenuItemLabel::create(textLabel3, this, menu_selector(MainMenuScene::menuCallback3));
+    this->menuLabel3->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 300);
+    this->menuLabel3->setAnchorPoint(ccp(0.5, 0.5));
+    this->menuLabel3->setVisible(true);
+	 
+    menu->addChild(this->menuLabel3);
+	//
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -142,5 +160,11 @@ void MainMenuScene::menuCallback1(CCObject* _pSender)
 void MainMenuScene::menuCallback2(CCObject* _pSender)
 {
 	this->replaceScene(CardScene::scene());
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+void MainMenuScene::menuCallback3(CCObject* _pSender)
+{
+	this->replaceScene(ShopScene::scene());
 }
 //---------------------------------------------------------------------------------------------------------------------------------

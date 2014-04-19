@@ -186,8 +186,10 @@ $RECYCLE.BIN/
 #
 libs/
 build_2048_vc10/
+build_2048_vc11/
 data-ram/
 *.icf
 *.mkb
 *.mkf
+*.psd
 
