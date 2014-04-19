@@ -1,27 +1,52 @@
 #include "Card.h"
 
 Card::Card()
+	: m_Description(NULL)
+	, m_Number(0)
 {
     
 }
+
 
 Card::~Card()
 {
     
 }
 
-Card* Card::create(int _numberCell)
-{
 
+Card* Card::create(int _id)
+{
     Card* card = new Card();    
-    
-    return card;
+	if (card && card->init(_id))
+	{
+		card->autorelease();
+		return card;
+	}
+	else
+	{
+		delete card;
+		card = NULL;
+		return NULL;
+	}
 }
 
-CCLayer* Card::getBody()
+
+bool Card::init(int _id)
 {
-    return m_Body;
+	/*if ( !CCLayer::init() )
+		return false;*/
+
+	//TODO: read from XML description and number of card
+
+	CCSprite* tempSpr = CCSprite::create("textures/scenes/card/manTemp.jpg");
+	tempSpr->setAnchorPoint( ccp(0, 0) );
+	tempSpr->setPosition( ccp(150, 50) );
+	addChild( tempSpr );
+
+
+	return true;
 }
+
 
 int Card::getNumber()
 {

@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "BattleScene.h"
+#include "CardScene.h"
 
 using namespace cocos2d;
 
@@ -62,7 +63,7 @@ void MainMenuScene::initMenu()
     this->addChild(menu, 1450);
     
     
-    //add "test" button
+    //add "battle" button
 	CCLabelBMFont* textLabel1 = CCLabelBMFont::create("START GAME", "fonts/days26black.fnt", 100.0f);
     textLabel1->setColor(ccc3(255, 255, 255));
     
@@ -73,6 +74,16 @@ void MainMenuScene::initMenu()
 	 
     menu->addChild(this->menuLabel1);
     //
+
+	CCLabelBMFont* textLabel2 = CCLabelBMFont::create("CARD SCENE", "fonts/days26black.fnt", 100.0f);
+    textLabel1->setColor(ccc3(255, 255, 255));
+    
+    this->menuLabel2 = CCMenuItemLabel::create(textLabel2, this, menu_selector(MainMenuScene::menuCallback2));
+    this->menuLabel2->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 200);
+    this->menuLabel2->setAnchorPoint(ccp(0.5, 0.5));
+    this->menuLabel2->setVisible(true);
+	 
+    menu->addChild(this->menuLabel2);
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -122,10 +133,14 @@ void MainMenuScene::ccTouchesCancelled(CCSet* _touches, CCEvent* _event)
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------
 void MainMenuScene::menuCallback1(CCObject* _pSender)
 {
     this->replaceScene(BattleScene::scene());
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------
+void MainMenuScene::menuCallback2(CCObject* _pSender)
+{
+	this->replaceScene(CardScene::scene());
+}
 //---------------------------------------------------------------------------------------------------------------------------------

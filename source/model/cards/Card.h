@@ -1,25 +1,30 @@
-#ifndef __MusicalAdventure__Cell__
-#define __MusicalAdventure__Cell__
+#ifndef __CARD_H__
+#define __CARD_H__
 
-#include <iostream>
 #include "cocos2d.h"
-#include "tinyxml.h"
 
 using namespace cocos2d;
 using namespace std;
 
-class Card{
+class Card: public CCNode
+{
 public:
     static Card*    create(int _id);
-    CCLayer*        getBody();
+
+
     string          getDescription(string);
     int             getNumber();
-	~Card();
+	
 private:
+	bool init(int _id);
+
     Card();
+	~Card();
+
+
     CCLabelBMFont*	 m_Description;
-    CCLayer*		 m_Body;
+
     int				 m_Number;
 };
 
-#endif /* defined(__MusicalAdventure__Cell__) */
+#endif /*__CARD_H__*/

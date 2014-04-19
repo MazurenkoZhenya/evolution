@@ -34,11 +34,17 @@ private:
 
     
     //main menu callbacks
+	//replace to BattleScene
     void            menuCallback1(CCObject* _pSender);
+	//replace to CardScene
+	void            menuCallback2(CCObject* _pSender);
     
 private:
-    //main menu
+    //to BattleScene button
     cocos2d::CCMenuItemLabel*   menuLabel1;
+
+	//to BattleScene button
+	cocos2d::CCMenuItemLabel*   menuLabel2;
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------
