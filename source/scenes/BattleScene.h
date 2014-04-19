@@ -52,7 +52,7 @@ private:
     void            ccTouchesCancelled(cocos2d::CCSet* _touches, cocos2d::CCEvent* _event);
     
     HudScreen*          pHudScreen;
-    const int           MIN_DISTANCE_MOVE;  
+    const int           MIN_DISTANCE_MOVE;    
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------
