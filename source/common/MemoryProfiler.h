@@ -1,11 +1,3 @@
-//
-//  MemoryProfiler.h
-//  MusicalAdventure
-//
-//  Created by madmin on 4/8/14.
-//  Copyright (c) 2014 ampagames. All rights reserved.
-//
-
 #ifndef __MusicalAdventure__MemoryProfiler__
 #define __MusicalAdventure__MemoryProfiler__
 
@@ -16,10 +8,16 @@
 class MemoryProfiler
 {
 public:
-    std::vector<Cell*> cellForDell;
-    static MemoryProfiler* getInstance();
-    static void destroy();
-    bool   slogeniya;
+    std::vector<Cell*>			cellForDell;
+    static MemoryProfiler*		getInstance();
+    static void					destroy();
+    bool						slogeniya;
+	CCPoint						START_POS_ARR;
+	CCPoint						INDENT_CELL;
+	const int					m_DefSize;
+	int							m_Size;
+	float						m_Scale;
+	void						setSize(int _size);
 private:
     MemoryProfiler();
     ~MemoryProfiler();

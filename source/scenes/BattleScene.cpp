@@ -22,7 +22,6 @@ CCScene* BattleScene::scene()
 //---------------------------------------------------------------------------------------------------------------------------------
 BattleScene::BattleScene():
 pHudScreen(NULL),
-START_POS_ARR(ccp(350, 490)),
 MIN_DISTANCE_MOVE(30),
 MAX_TIME_MOVE_ENEMY(1.0f)
 {
@@ -42,23 +41,19 @@ bool BattleScene::init()
     if(!CCLayer::init())
         return false;
     
+	MemoryProfiler* mProfiler = MemoryProfiler::getInstance();
+
     this->scheduleUpdate();
     this->setTouchEnabled(true);
-    CCSprite* shading1 = CCSprite::create("textures/scenes/battle/shading_team_one.png");
+    CCSprite* shading1 = CCSprite::create("textures/scenes/battle/shading.png");
 	shading1->setScaleX(SCREEN_WIDTH);
     shading1->setScaleY(SCREEN_HEIGHT);
     shading1->setAnchorPoint(ccp(0, 0));
     this->addChild(shading1, -2);
-    
-    shading2 = CCSprite::create("textures/scenes/battle/shading_team_two.png");
-	shading2->setScaleX(SCREEN_WIDTH);
-    shading2->setScaleY(768);
-    shading2->setAnchorPoint(ccp(0, 0));
-    shading2->setVisible(false);
-    this->addChild(shading2, -1);
+
     background = CCSprite::create("textures/scenes/battle/background.png");
     background->setAnchorPoint(ccp(0, 1));
-    background->setPosition(START_POS_ARR);
+    background->setPosition(mProfiler->START_POS_ARR);
     
     this->addChild(background);
     
@@ -68,15 +63,12 @@ bool BattleScene::init()
 //---------------------------------------------------------------------------------------------------------------------------------
 void BattleScene::onEnter()
 {
-    this->setScale(2.2);
     CCLayer::onEnter();
     
     gameModel = new Game();
     gameModel->rand_count();
 	gameModel->rand_count();
 
-    srand(time(NULL));
-    
     CCLOG("BattleScene::onEnter");
 }
 
@@ -120,14 +112,14 @@ void BattleScene::ccTouchesEnded(CCSet* _touches, CCEvent* _event)
         if(checkDuration.x > 0)
         {
             if(MIN_DISTANCE_MOVE < checkDuration.x)
-                durationMove = DM_TOP;
+                durationMove = DM_RIGHT;
             else
                 durationMove = DM_NONE;
         }
         else
         {
             if(-MIN_DISTANCE_MOVE > checkDuration.x)
-                durationMove = DM_DOWN;
+                durationMove = DM_LEFT;
             else
                 durationMove = DM_NONE;
         }
@@ -136,14 +128,14 @@ void BattleScene::ccTouchesEnded(CCSet* _touches, CCEvent* _event)
         if(checkDuration.y > 0)
         {
             if(MIN_DISTANCE_MOVE < checkDuration.y)
-                durationMove = DM_LEFT;
+                durationMove = DM_TOP;
             else
                 durationMove = DM_NONE;
         }
         else
         {
             if(-MIN_DISTANCE_MOVE > checkDuration.y)
-                durationMove = DM_RIGHT;
+                durationMove = DM_DOWN;
             else
                 durationMove = DM_NONE;
         }
@@ -151,7 +143,6 @@ void BattleScene::ccTouchesEnded(CCSet* _touches, CCEvent* _event)
     if(durationMove != DM_NONE)
     {
         gameModel->moveDirection(durationMove);
-        shading2->setVisible(false);
     }
 }
 

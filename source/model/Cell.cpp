@@ -20,14 +20,15 @@ Cell::~Cell()
 
 Cell* Cell::create(int _numberCell)
 {
+	MemoryProfiler* mProfiler = MemoryProfiler::getInstance();
     Cell* cell = new Cell();
     char buf[255];
     sprintf(buf, "%d", _numberCell);
     
     cell->numberCell = _numberCell;
     cell->rect = CCSprite::create("textures/2048/cell.png");
-    cell->rect->setAnchorPoint(ccp(0, 1));
-    
+    //cell->rect->setAnchorPoint(ccp(0, 1));
+	
     cell->number = CCLabelBMFont::create(buf, "fonts/days26black.fnt", 35);
     cell->number->setPosition(ccp(cell->rect->getContentSize().width / 2, cell->rect->getContentSize().height / 2));
     cell->number->setColor(ccBLACK);
@@ -36,7 +37,7 @@ Cell* Cell::create(int _numberCell)
     cell->body = CCLayer::create();
     cell->body->addChild(cell->rect);
     cell->body->setAnchorPoint(ccp(0, 0));
-    //cell->body->setRotation(90);
+	cell->body->setScale(mProfiler->m_Scale);
     
     ccColor3B color;
     color.r = 232;
@@ -79,15 +80,6 @@ void Cell::setNumber(int _numberCell)
     char buf[255];
     sprintf(buf, "%d", numberCell);
     number->setString(buf);
-}
-
-void Cell::setPos(CCPoint _pos)
-{
-    pos = _pos;
-}
-CCPoint& Cell::getPos()
-{
-    return pos;
 }
 
 ccColor3B Cell::getColor()

@@ -12,9 +12,6 @@
 #define SOUND_DEFAULT_VOLUME    1.0f
 #define MUSIC_DEFAULT_VOLUME    1.0f
 
-#define ROW_GAME 5
-#define COL_GAME 5
-
 enum duration_move{
     DM_LEFT = 0,
     DM_TOP = 1,

@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "common/MemoryProfiler.h"
 
 using namespace cocos2d;
 
@@ -22,11 +23,8 @@ public:
     void            setNumber(int _numberCell);
     int             getNumber();
     ccColor3B       getColor();
-    void            setPos(CCPoint _pos);
-    CCPoint&        getPos();
     ~Cell();
 private:
-    CCPoint         pos;
     Cell();
     CCLabelBMFont*	 number;
     CCSprite*		 rect;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Config.h"
 #include "Cell.h"
+#include "common/MemoryProfiler.h"
 
 class BattleScene;
 
@@ -17,7 +18,7 @@ public:
 	void				              run();
 	bool	                          checkDefeat();
     void							  destroyCell(float _dt);
-    std::vector<vector<Cell*>>		  mas;
+    vector<vector<Cell*>>			  mas;
     float							  timeToMove;
     const float						  maxTimeToMove;
     void							  upadte(float _dt);
@@ -27,6 +28,5 @@ private:
 	int								  size;
 	duration_move					  oldDirection;
 	void							  onVictory();
-	int								  minusHP;
     const float				          SPEED_CELL;
 };

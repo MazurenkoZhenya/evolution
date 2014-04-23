@@ -18,10 +18,9 @@ public:
     
     HudScreen*                  getHudScreen() const { return pHudScreen; }
     CCSprite*                   background;
-    const CCPoint               START_POS_ARR;
     CCSprite*                   shading1;
     CCSprite*                   shading2;
-    Game*                      gameModel;
+    Game*                       gameModel;
 private:
     CCLabelBMFont*              m_LTimeToMove;
     CCPoint                     touchBegin;
