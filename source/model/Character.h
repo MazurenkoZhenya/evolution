@@ -26,11 +26,19 @@ public:
     static Character*           create(string _name);
     void                        update(float _dt);
     CCSprite*                   avatar;
+	float						m_ChanceDropGold;
+	float						m_CurCreateCell;
+	void						setNewRandomGenerateCell(int _numb);
+	float						getCurCreateCell();
+	int							getAddGol();
+	float						generateGold(int _num);
 private:
+	int							m_AddGold;
     Character();
     ~Character();
-    CCLayer*        body;
-    string          name;
+    CCLayer*			        body;
+    string						name;
+	float						m_Gold;
 };
 
 #endif /* defined(__MusicalAdventure__Character__) */

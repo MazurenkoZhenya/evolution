@@ -22,7 +22,7 @@ public:
     CCSprite*                   shading2;
     Game*                       gameModel;
 private:
-    CCLabelBMFont*              m_LTimeToMove;
+    CCLabelBMFont*				m_AddGold;
     CCPoint                     touchBegin;
     
     duration_move               durationMove;
@@ -39,7 +39,8 @@ private:
     const float                 MAX_TIME_MOVE_ENEMY;
     
     CREATE_FUNC(BattleScene);
-    
+    float						MAX_TIME_SHOW_ADD_GOLD;
+	float						m_CurTimeShowGold;
     BattleScene();
     ~BattleScene();
     

@@ -9,9 +9,13 @@
 #include "Character.h"
 #include "Cell.h"
 #include "BattleScene.h"
+#include "math.h"
 
-
-Character::Character()
+Character::Character() : 
+m_Gold(0),
+m_CurCreateCell(0),
+m_ChanceDropGold(0),
+m_AddGold(5)
 {
     
 }
@@ -41,16 +45,44 @@ void Character::setName(string _str)
     name = _str;
 }
 
+void Character::setNewRandomGenerateCell(int _numb)
+{
+	m_CurCreateCell = _numb;
+	m_ChanceDropGold = (log10(m_CurCreateCell) / log10(2)) * 5;
+}
+
+float Character::getCurCreateCell()
+{
+	return m_CurCreateCell;
+}
+
+int Character::getAddGol()
+{
+	return m_AddGold;
+}
+
+float Character::generateGold(int _num)
+{
+	float gen = 0;
+
+	if(rand()%100 < m_ChanceDropGold)
+		gen = rand()%(m_AddGold * static_cast<int>(log10(_num) / log10(2)));
+
+	m_Gold += gen;
+	return gen;
+}
+
 Character* Character::create(string _name)
 {
     Character* hero = new Character();
     
     hero->body = CCLayer::create();
-    
     hero->name = _name;
-    hero->avatar = CCSprite::create("textures/scenes/battle/avatar/icon_1.png");
+    hero->avatar = CCSprite::create();
     hero->avatar->setAnchorPoint(ccp(0, 0));
-    
+
+	hero->setNewRandomGenerateCell(2);
+
     hero->body->addChild(hero->avatar);    
     return hero;
 }

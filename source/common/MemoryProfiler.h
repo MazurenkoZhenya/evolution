@@ -11,13 +11,15 @@ public:
     std::vector<Cell*>			cellForDell;
     static MemoryProfiler*		getInstance();
     static void					destroy();
-    bool						slogeniya;
+    int							slogeniya;
 	CCPoint						START_POS_ARR;
 	CCPoint						INDENT_CELL;
 	const int					m_DefSize;
 	int							m_Size;
 	float						m_Scale;
 	void						setSize(int _size);
+	Character*					m_Hero;
+	
 private:
     MemoryProfiler();
     ~MemoryProfiler();
