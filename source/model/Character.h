@@ -30,7 +30,7 @@ public:
 	float						m_CurCreateCell;
 	void						setNewRandomGenerateCell(int _numb);
 	float						getCurCreateCell();
-	int							getAddGol();
+	int							getGold();
 	float						generateGold(int _num);
 private:
 	int							m_AddGold;

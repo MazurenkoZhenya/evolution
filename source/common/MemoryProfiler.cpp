@@ -35,11 +35,13 @@ START_POS_ARR(ccp(70, 690)),
 m_DefSize(4),
 m_Size(8),
 m_Scale(1.0f),
-INDENT_CELL(ccp(25, 25))//12, 13))
+INDENT_CELL(ccp(25, 25)),
+m_RandNumber(2)
 {
 	m_Scale = (637.0f / ((m_Size - m_DefSize) * 153.0f + 637.0f));
 	cellForDell.clear();
 	m_Hero = Character::create("player");
+	m_Hero->setNewRandomGenerateCell(m_RandNumber);
 }
 
 void MemoryProfiler::setSize(int _size)

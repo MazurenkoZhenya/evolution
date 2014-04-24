@@ -55,14 +55,22 @@ bool BattleScene::init()
     background = CCSprite::create("textures/scenes/battle/background.png");
     background->setAnchorPoint(ccp(0, 1));
     background->setPosition(mProfiler->START_POS_ARR);
-    
     this->addChild(background);
 
-	m_AddGold = CCLabelBMFont::create("DDDDWWW QWQW", "fonts/days26black.fnt", 20.0f);
-    m_AddGold->setPosition(ccp(mProfiler->START_POS_ARR.x + background->getContentSize().width / 2, mProfiler->START_POS_ARR.y + 10));
+	m_AddGold = CCLabelBMFont::create("+0", "fonts/days26black.fnt", 20.0f);
+    m_AddGold->setPosition(ccp(mProfiler->START_POS_ARR.x + background->getContentSize().width / 2, mProfiler->START_POS_ARR.y + 40));
 	m_AddGold->setColor(ccc3(255, 0, 0));
     this->addChild(m_AddGold, 4564646);
     
+	
+	char buf[255];
+	sprintf(buf, "%d", mProfiler->m_Hero->getGold());
+
+	m_AllGold = CCLabelBMFont::create(buf, "fonts/days26black.fnt", 30.0f);
+    m_AllGold->setPosition(ccp(mProfiler->START_POS_ARR.x + background->getContentSize().width / 2, mProfiler->START_POS_ARR.y + 10));
+	m_AllGold->setColor(ccc3(255, 0, 0));
+    this->addChild(m_AllGold, 4564646);
+
 	this->scheduleUpdate();
     this->setTouchEnabled(true);
 
@@ -75,8 +83,6 @@ void BattleScene::onEnter()
 {
     CCLayer::onEnter();
     
-	
-	
     gameModel = new Game();
     gameModel->rand_count();
 	gameModel->rand_count();
@@ -120,6 +126,10 @@ void BattleScene::update(float _dt)
 			sprintf(buf, "+%d", addGold);
 			this->m_AddGold->setString(buf);
 		    this->m_AddGold->setOpacity(255);
+
+			sprintf(buf, "%d", mProfiler->m_Hero->getGold());
+			this->m_AllGold->setString(buf);
+
 			this->m_CurTimeShowGold = this->MAX_TIME_SHOW_ADD_GOLD;
 		}
 

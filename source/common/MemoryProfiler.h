@@ -19,7 +19,7 @@ public:
 	float						m_Scale;
 	void						setSize(int _size);
 	Character*					m_Hero;
-	
+	int							m_RandNumber;
 private:
     MemoryProfiler();
     ~MemoryProfiler();

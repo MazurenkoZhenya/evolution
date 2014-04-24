@@ -56,9 +56,9 @@ float Character::getCurCreateCell()
 	return m_CurCreateCell;
 }
 
-int Character::getAddGol()
+int Character::getGold()
 {
-	return m_AddGold;
+	return m_Gold;
 }
 
 float Character::generateGold(int _num)
@@ -80,8 +80,6 @@ Character* Character::create(string _name)
     hero->name = _name;
     hero->avatar = CCSprite::create();
     hero->avatar->setAnchorPoint(ccp(0, 0));
-
-	hero->setNewRandomGenerateCell(2);
 
     hero->body->addChild(hero->avatar);    
     return hero;

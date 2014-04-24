@@ -23,6 +23,7 @@ public:
     Game*                       gameModel;
 private:
     CCLabelBMFont*				m_AddGold;
+	CCLabelBMFont*				m_AllGold;
     CCPoint                     touchBegin;
     
     duration_move               durationMove;

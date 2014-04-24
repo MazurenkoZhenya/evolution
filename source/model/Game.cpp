@@ -54,9 +54,9 @@ bool Game::rand_count()
 
 	CCPoint random_pos = arr[rand()%arr.size()];
 
-    Cell* newCell = Cell::create(2);
+    Cell* newCell = Cell::create(mProfiler->m_RandNumber);
     
-	newCell->getBody()->setPosition(ccp(newCell->getRect()->getContentSize().width / 2 + mProfiler->START_POS_ARR.x + (mProfiler->INDENT_CELL.x * (random_pos.x + 1) + random_pos.x * newCell->getRect()->getContentSize().width) * mProfiler->m_Scale, (mProfiler->START_POS_ARR.y - fabs(random_pos.y * newCell->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (random_pos.y + 1)) * mProfiler->m_Scale) - newCell->getRect()->getContentSize().height / 2));
+	newCell->getBody()->setPosition(ccp(mProfiler->START_POS_ARR.x + (newCell->getRect()->getContentSize().width / 2 + mProfiler->INDENT_CELL.x * (random_pos.x + 1) + random_pos.x * newCell->getRect()->getContentSize().width) * mProfiler->m_Scale, (mProfiler->START_POS_ARR.y - fabs(random_pos.y * newCell->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (random_pos.y + 1) + newCell->getRect()->getContentSize().height / 2) * mProfiler->m_Scale)));
 	newCell->getBody()->setScale(0.001);
     _scene->addChild(newCell->getBody());
     
@@ -75,7 +75,7 @@ void Game::move_to(CCLayer* _sprite, CCPoint& _endPos, float _time)
     curActionMove->startWithTarget(_sprite);
     
     CCCallFunc* nextMove = CCCallFunc::create( _sprite, NULL);
-    CCSequence* sequence = CCSequence::create(curActionMove, nextMove, NULL);
+	CCSequence* sequence = CCSequence::create(curActionMove, nextMove, NULL);
     
     _sprite->runAction(sequence);
 }
@@ -97,13 +97,13 @@ void Game::moveDirection(duration_move _direction)
                         if(mas[j][i] == NULL)
 						{
 							mas[j][i] = mas[z][i];
-                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - fabs(j * mas[z][i]->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (j + 1)) * mProfiler->m_Scale) - mas[z][i]->getRect()->getContentSize().height / 2);
+                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - fabs(j * mas[z][i]->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (j + 1) + mas[z][i]->getRect()->getContentSize().height / 2) * mProfiler->m_Scale));
                             move_to(mas[j][i]->getBody(), newPos, SPEED_CELL);
                             mas[z][i] = NULL;
 						}else if (mas[j][i]->getNumber() == mas[z][i]->getNumber())
 						{
 							mas[j][i]->setNumber(mas[j][i]->getNumber() + mas[z][i]->getNumber());
-                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - (mas[j][i]->getBody()->getPositionY() + mas[j][i]->getRect()->getContentSize().height) * mProfiler->m_Scale) - mas[j][i]->getRect()->getContentSize().height / 2);
+                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - (mas[j][i]->getBody()->getPositionY() + mas[j][i]->getRect()->getContentSize().height + mas[j][i]->getRect()->getContentSize().height / 2) * mProfiler->m_Scale));
                             move_to(mas[z][i]->getBody(), newPos, SPEED_CELL);
                             mProfiler->cellForDell.push_back(mas[z][i]);
                             mas[z][i] = NULL;
@@ -128,13 +128,14 @@ void Game::moveDirection(duration_move _direction)
                         if(mas[i][j] == NULL)
 						{
 							mas[i][j] = mas[i][z];
-                            newPos = ccp(mas[i][z]->getRect()->getContentSize().width / 2 + mProfiler->START_POS_ARR.x + (mProfiler->INDENT_CELL.x * (j + 1) + j * mas[i][z]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][z]->getBody()->getPositionY());
+                            newPos = ccp(mProfiler->START_POS_ARR.x + (mas[i][z]->getRect()->getContentSize().width / 2 + mProfiler->INDENT_CELL.x * (j + 1) + j * mas[i][z]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][z]->getBody()->getPositionY());
                             move_to(mas[i][j]->getBody(), newPos, SPEED_CELL);
 							mas[i][z] = NULL;
                         }else if (mas[i][j]->getNumber() == mas[i][z]->getNumber())
 						{
 							mas[i][j]->setNumber(mas[i][j]->getNumber() + mas[i][z]->getNumber());
-                            newPos = ccp(mas[i][j]->getRect()->getContentSize().width / 2 + mProfiler->START_POS_ARR.x + (mas[i][j]->getBody()->getPositionX() + mas[i][j]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][j]->getBody()->getPositionY());
+                            newPos = ccp(mProfiler->START_POS_ARR.x + (mas[i][j]->getRect()->getContentSize().width / 2 + mas[i][j]->getBody()->getPositionX()/* - mas[i][j]->getRect()->getContentSize().width*/) * mProfiler->m_Scale, mas[i][j]->getBody()->getPositionY());
+							mas[i][z]->getBody()->setZOrder(mas[i][j]->getBody()->getZOrder() + 1);
                             move_to(mas[i][z]->getBody(), newPos, SPEED_CELL);
                             
                             mProfiler->cellForDell.push_back(mas[i][z]);
@@ -160,13 +161,16 @@ void Game::moveDirection(duration_move _direction)
                         if(mas[i][j] == NULL)
 						{
 							mas[i][j] = mas[i][z];
-                            newPos = ccp(mas[i][z]->getRect()->getContentSize().width / 2 + mProfiler->START_POS_ARR.x + (mProfiler->INDENT_CELL.x * (j + 1) + j * mas[i][z]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][j]->getBody()->getPositionY());
+                            newPos = ccp(mProfiler->START_POS_ARR.x + (mas[i][z]->getRect()->getContentSize().width / 2 + mProfiler->INDENT_CELL.x * (j + 1) + j * mas[i][z]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][j]->getBody()->getPositionY());
                             move_to(mas[i][j]->getBody(), newPos, SPEED_CELL);
 							mas[i][z] = NULL;
 						}else if (mas[i][j]->getNumber() == mas[i][z]->getNumber())
 						{
 							mas[i][j]->setNumber(mas[i][j]->getNumber() + mas[i][z]->getNumber());
-                            newPos = ccp(mas[i][j]->getRect()->getContentSize().width / 2 + mProfiler->START_POS_ARR.x + (mas[i][j]->getBody()->getPosition().x - mas[i][j]->getRect()->getContentSize().width) * mProfiler->m_Scale, mas[i][j]->getBody()->getPosition().y);
+                            newPos = ccp(mProfiler->START_POS_ARR.x + (mas[i][j]->getRect()->getContentSize().width / 2 + mas[i][j]->getBody()->getPosition().x/* + mas[i][j]->getRect()->getContentSize().width*/) * mProfiler->m_Scale, mas[i][j]->getBody()->getPosition().y);
+
+							mas[i][z]->getBody()->setZOrder(mas[i][j]->getBody()->getZOrder() + 1);
+
                             move_to(mas[i][z]->getBody(), newPos, SPEED_CELL);
                             mProfiler->cellForDell.push_back(mas[i][z]);
 							mas[i][z] = NULL;
@@ -191,14 +195,14 @@ void Game::moveDirection(duration_move _direction)
                         if(mas[j][i] == NULL)
 						{
 							mas[j][i] = mas[z][i];
-                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - fabs(j * mas[z][i]->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (j + 1)) * mProfiler->m_Scale) - mas[z][i]->getRect()->getContentSize().height / 2);
+                            newPos = ccp(mas[j][i]->getBody()->getPositionX(), (mProfiler->START_POS_ARR.y - fabs(j * mas[z][i]->getRect()->getContentSize().height + mProfiler->INDENT_CELL.y * (j + 1) + mas[z][i]->getRect()->getContentSize().height / 2) * mProfiler->m_Scale));
                             move_to(mas[j][i]->getBody(), newPos, SPEED_CELL);
 							mas[z][i] = NULL;
 						}
 						else if (mas[j][i]->getNumber() == mas[z][i]->getNumber())
 						{
 							mas[j][i]->setNumber(mas[j][i]->getNumber() + mas[z][i]->getNumber());
-                            newPos = ccp(mas[j][i]->getBody()->getPosition().x, (mProfiler->START_POS_ARR.y - (mas[j][i]->getBody()->getPosition().y - mas[j][i]->getRect()->getContentSize().height) * mProfiler->m_Scale) - mas[j][i]->getRect()->getContentSize().height / 2);
+                            newPos = ccp(mas[j][i]->getBody()->getPosition().x, (mProfiler->START_POS_ARR.y - (mas[j][i]->getBody()->getPosition().y - mas[j][i]->getRect()->getContentSize().height + mas[j][i]->getRect()->getContentSize().height / 2) * mProfiler->m_Scale));
                             move_to(mas[z][i]->getBody(), newPos, SPEED_CELL);
                             mProfiler->cellForDell.push_back(mas[z][i]);
 							mas[z][i] = NULL;
@@ -229,6 +233,7 @@ void Game::moveDirection(duration_move _direction)
 
 void Game::upadte(float _dt)
 {
+
 }
 
 bool Game::checkDefeat()
