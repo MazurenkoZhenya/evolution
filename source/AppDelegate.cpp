@@ -32,6 +32,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	//CCDirector::sharedDirector()->setContentScaleFactor(1);
 
+	//add resource search path
+	CCFileUtils::sharedFileUtils()->addSearchPath("textures/scenes/card/");
+	CCFileUtils::sharedFileUtils()->addSearchPath("fonts/");
+
 	srand(time(NULL));
 
     return true;

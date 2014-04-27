@@ -31,26 +31,9 @@ bool CardScene::init()
 	if ( !CCLayer::init() )
 		return false;
 
+	setTouchEnabled( true );
 
-	//TODO: back and shop as buttons
-	CCSprite* backArrow = CCSprite::create("textures/scenes/card/backArrow.png");
-	backArrow->setPosition( ccp(650, 930) );
-	addChild( backArrow );
-
-	CCSprite* shop = CCSprite::create("textures/scenes/card/shop.png");
-	shop->setPosition( ccp(100, 930) );
-	addChild( shop );
-
-	//TODO: init card from XML
-	Card* card1 = Card::create(0);
-	Card* card2 = Card::create(0);
-
-	CCArray* cardList = CCArray::create(card1, card2, NULL);
-
-	m_pScrollList = CCScrollLayer::create(cardList);
-	m_pScrollList->setPosition( ccp(0, 0) );
-	addChild( m_pScrollList );
-
+	initMenu();
 
 	loadCardsFromXml();
 
@@ -58,9 +41,34 @@ bool CardScene::init()
 }
 
 
+void CardScene::initMenu()
+{
+	CCSprite* backButtonSprite = CCSprite::create("backArrow.png");
+	CCSprite* backButtonSpriteSel = CCSprite::create("backArrow.png");
+	backButtonSpriteSel->setScale( 0.9 );
+
+	CCSprite* shopButtonSprite = CCSprite::create("shop.png");
+	CCSprite* shopButtonSpriteSel = CCSprite::create("shop.png");
+	shopButtonSpriteSel->setScale( 0.9 );
+
+	CCMenuItemSprite* backButton = CCMenuItemSprite::create(backButtonSprite, backButtonSpriteSel, this, menu_selector(CardScene::onBackButtonAction));
+	backButton->setPosition( ccp(650, 930) );
+	
+	CCMenuItemSprite* shopButton = CCMenuItemSprite::create(shopButtonSprite, shopButtonSpriteSel, this, menu_selector(CardScene::onShopButtonAction));
+	shopButton->setPosition( ccp(100, 930) );
+
+	CCMenu* menu = CCMenu::create(backButton, shopButton, NULL);
+	menu->setPosition(0, 0);
+	addChild( menu );
+}
+
+
 void CardScene::loadCardsFromXml()
 {
 	TiXmlDocument doc;
+
+	//list of card for scroll layer init
+	CCArray* cardList = CCArray::create();
 
 	if ( doc.LoadFile(CARDS_XML) )
 	{
@@ -73,13 +81,64 @@ void CardScene::loadCardsFromXml()
 			card_tag->QueryIntAttribute("number", &number);
 
 			const char* path = card_tag->Attribute("path");
-			const char* name = card_tag->Attribute("name");
-			const char* description = card_tag->Attribute("description");
+			const char* description_id = card_tag->Attribute("description_id");
+
+			//TODO: load description from L10n(Localization) file with description_id
+
+			//create card and add to card list
+			Card* card = Card::create(number, path, description_id);
+			cardList->addObject( card );
 			
 			card_tag = card_tag->NextSiblingElement();
 		}
 	}
 
+
+	m_pScrollList = CCScrollLayer::create(cardList);
+	m_pScrollList->setPosition( ccp(0, 0) );
+	addChild( m_pScrollList );
+
+}
+
+
+void CardScene::onBackButtonAction(cocos2d::CCObject* sender)
+{
+	//TODO: replace scene
+	Card* card = Card::create(0, "manTemp.jpg", "THIS_IS_NEW_STRING");
+	m_pScrollList->addPage( card );
+}
+
+
+void CardScene::onShopButtonAction(cocos2d::CCObject* sender)
+{
+	//TODO: replace scene
+}
+
+
+void CardScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
+{
+	CCTouch* touch = dynamic_cast<CCTouch*>(pTouches->anyObject());
+	CCPoint touch_point = convertTouchToNodeSpace( touch );
+
+}
+
+
+void CardScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
+{
+
+}
+
+
+void CardScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
+{
+	CCTouch* touch = dynamic_cast<CCTouch*>(pTouches->anyObject());
+	CCPoint touch_point = convertTouchToNodeSpace( touch );
+}
+
+
+void CardScene::ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent)
+{
+	this->ccTouchesEnded(pTouches, pEvent);
 }
 
 

@@ -3,28 +3,28 @@
 
 #include "cocos2d.h"
 
-using namespace cocos2d;
+
 using namespace std;
 
-class Card: public CCNode
+class Card: public cocos2d::CCNode
 {
 public:
-    static Card*    create(int _id);
-
+    static Card*    create(int _number, const char* _texture_path, const char* _desciption_string);
 
     string          getDescription();
     int             getNumber();
 	
 private:
-	bool init(int _id);
+	bool init(int _number, const char* _texture_path, const char* _desciption_string);
 
     Card();
 	~Card();
 
 
-    CCLabelBMFont*	 m_Description;
+    cocos2d::CCLabelBMFont*		m_pDescription;
+	cocos2d::CCSprite*			m_pCardSprite;
 
-    int				 m_Number;
+    int							m_Number;
 };
 
 #endif /*__CARD_H__*/
